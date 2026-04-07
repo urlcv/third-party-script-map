@@ -1,0 +1,46 @@
+{
+    "name": "urlcv/third-party-script-map",
+    "version": "dev-main",
+    "description": "Map third-party scripts, trackers, and resource hints from HTML — browser-only, evidence-based. Powers the free tool at urlcv.com.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "third-party",
+        "scripts",
+        "trackers",
+        "privacy",
+        "supply-chain",
+        "web-performance",
+        "devtools"
+    ],
+    "homepage": "https://urlcv.com/tools/third-party-script-map",
+    "authors": [
+        {
+            "name": "URLCV",
+            "homepage": "https://urlcv.com"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    },
+    "suggest": {
+        "illuminate/support": "Required for Laravel integration (Blade views)"
+    },
+    "autoload": {
+        "psr-4": {
+            "URLCV\\ThirdPartyScriptMap\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "URLCV\\ThirdPartyScriptMap\\Laravel\\ThirdPartyScriptMapServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "minimum-stability": "stable"
+}
