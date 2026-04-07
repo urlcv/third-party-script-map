@@ -1,7 +1,7 @@
 {
     "name": "urlcv/third-party-script-map",
     "version": "dev-main",
-    "description": "Map third-party scripts, trackers, and resource hints from HTML — browser-only, evidence-based. Powers the free tool at urlcv.com.",
+    "description": "Audit the third-party vendors a webpage appears to load, what they are likely for, and what is worth reviewing for privacy and performance.",
     "type": "library",
     "license": "MIT",
     "keywords": [
