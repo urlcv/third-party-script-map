@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
+    <div class="space-y-6">
         <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div>
@@ -531,19 +531,19 @@
 
         const topCategories = categorySummary.slice(0, 3).map((item) => item.label.toLowerCase());
         if (topCategories.length === 1) {
-            return `The page appears to rely mostly on ${topCategories[0]} tooling.`;
+            return 'The page appears to rely mostly on ' + topCategories[0] + ' tooling.';
         }
         if (topCategories.length === 2) {
-            return `The page appears to rely on ${topCategories[0]} and ${topCategories[1]} tooling.`;
+            return 'The page appears to rely on ' + topCategories[0] + ' and ' + topCategories[1] + ' tooling.';
         }
-        return `The page appears to rely on ${topCategories[0]}, ${topCategories[1]}, and ${topCategories[2]} tooling.`;
+        return 'The page appears to rely on ' + topCategories[0] + ', ' + topCategories[1] + ', and ' + topCategories[2] + ' tooling.';
     }
 
     function buildHeadline(vendorDomainCount, reviewLabel, hasPageUrl) {
         if (!vendorDomainCount) {
             return hasPageUrl ? 'No obvious third-party vendors detected in this snapshot' : 'No obvious vendor domains detected in this snapshot';
         }
-        return `${vendorDomainCount} likely external vendor domain${vendorDomainCount === 1 ? '' : 's'} detected (${reviewLabel.toLowerCase()} review)`;
+        return vendorDomainCount + ' likely external vendor domain' + (vendorDomainCount === 1 ? '' : 's') + ' detected (' + reviewLabel.toLowerCase() + ' review)';
     }
 
     function buildHighlights(vendorGroups, categorySummary, stats, hasPageUrl) {
@@ -555,23 +555,23 @@
             return items;
         }
 
-        items.push(`${stats.vendorDomains} vendor domain${stats.vendorDomains === 1 ? '' : 's'} and ${stats.vendorResources} distinct vendor URL${stats.vendorResources === 1 ? '' : 's'} were found.`);
+        items.push(stats.vendorDomains + ' vendor domain' + (stats.vendorDomains === 1 ? '' : 's') + ' and ' + stats.vendorResources + ' distinct vendor URL' + (stats.vendorResources === 1 ? '' : 's') + ' were found.');
 
         const topCategory = categorySummary[0];
         if (topCategory) {
-            items.push(`${topCategory.count} domain${topCategory.count === 1 ? '' : 's'} matched ${topCategory.label.toLowerCase()} tooling.`);
+            items.push(topCategory.count + ' domain' + (topCategory.count === 1 ? '' : 's') + ' matched ' + topCategory.label.toLowerCase() + ' tooling.');
         }
 
         if (stats.unknownDomains > 0) {
-            items.push(`${stats.unknownDomains} domain${stats.unknownDomains === 1 ? '' : 's'} were not confidently recognized and should be reviewed manually.`);
+            items.push(stats.unknownDomains + ' domain' + (stats.unknownDomains === 1 ? '' : 's') + ' were not confidently recognized and should be reviewed manually.');
         }
 
         if (stats.firstPartyResources > 0 && hasPageUrl) {
-            items.push(`${stats.firstPartyResources} resource URL${stats.firstPartyResources === 1 ? '' : 's'} stayed on the page's own origin.`);
+            items.push(stats.firstPartyResources + ' resource URL' + (stats.firstPartyResources === 1 ? '' : 's') + ' stayed on the page\'s own origin.');
         }
 
         if (stats.unresolvedRelative > 0) {
-            items.push(`${stats.unresolvedRelative} relative URL${stats.unresolvedRelative === 1 ? '' : 's'} could not be resolved from the supplied input.`);
+            items.push(stats.unresolvedRelative + ' relative URL' + (stats.unresolvedRelative === 1 ? '' : 's') + ' could not be resolved from the supplied input.');
         }
 
         return items.slice(0, 5);
@@ -865,16 +865,16 @@ function thirdPartyScriptMap() {
             this.websiteUrl = 'https://www.example.com/';
             this.advancedMode = true;
             this.includeImages = true;
-            this.html = `<!DOCTYPE html><html><head>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="dns-prefetch" href="https://www.googletagmanager.com">
-<link rel="stylesheet" href="/assets/app.css">
-<script src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"><\/script>
-<script src="/assets/app.js"><\/script>
-</head><body>
-<iframe src="https://www.youtube.com/embed/abc"></iframe>
-<img src="https://cdn.example.com/logo.png" alt="">
-</body></html>`;
+            this.html = '<!DOCTYPE html><html><head>\n'
+                + '<link rel="preconnect" href="https://fonts.googleapis.com">\n'
+                + '<link rel="dns-prefetch" href="https://www.googletagmanager.com">\n'
+                + '<link rel="stylesheet" href="/assets/app.css">\n'
+                + '<script src="https://www.googletagmanager.com/gtag/js?id=G-XXXX"><\/script>\n'
+                + '<script src="/assets/app.js"><\/script>\n'
+                + '</head><body>\n'
+                + '<iframe src="https://www.youtube.com/embed/abc"></iframe>\n'
+                + '<img src="https://cdn.example.com/logo.png" alt="">\n'
+                + '</body><\/html>';
         },
 
         clear() {
@@ -937,39 +937,42 @@ function thirdPartyScriptMap() {
         async copyAudit() {
             if (!this.result) return;
 
-            const lines = [
+            var r = this.result;
+            var lines = [
                 '# Website vendor audit',
                 '',
-                `Headline: ${this.result.headline}`,
+                'Headline: ' + r.headline,
                 '',
-                this.result.summary,
+                r.summary,
                 '',
                 '## Stats',
-                `- Vendor domains: ${this.result.stats.vendorDomains}`,
-                `- Categories spotted: ${this.result.stats.categoryCount}`,
-                `- Unknown domains: ${this.result.stats.unknownDomains}`,
-                `- Unresolved relative URLs: ${this.result.stats.unresolvedRelative}`,
+                '- Vendor domains: ' + r.stats.vendorDomains,
+                '- Categories spotted: ' + r.stats.categoryCount,
+                '- Unknown domains: ' + r.stats.unknownDomains,
+                '- Unresolved relative URLs: ' + r.stats.unresolvedRelative,
                 '',
             ];
 
-            if (this.result.highlights.length) {
+            if (r.highlights.length) {
                 lines.push('## What stands out');
-                for (const item of this.result.highlights) lines.push(`- ${item}`);
+                for (var i = 0; i < r.highlights.length; i++) lines.push('- ' + r.highlights[i]);
                 lines.push('');
             }
 
-            if (this.result.recommendations.length) {
+            if (r.recommendations.length) {
                 lines.push('## Recommended next steps');
-                for (const item of this.result.recommendations) lines.push(`- ${item}`);
+                for (var i = 0; i < r.recommendations.length; i++) lines.push('- ' + r.recommendations[i]);
                 lines.push('');
             }
 
             lines.push('## Vendor map');
-            for (const group of this.result.groups) {
-                lines.push(`### ${group.domain} (${group.tierLabel.toLowerCase()}) - ${group.categoryLabel}`);
-                for (const row of group.urls) {
-                    const suffix = row.count > 1 ? ` x${row.count}` : '';
-                    lines.push(`- ${row.kind}: \`${row.href}\`${suffix}`);
+            for (var gi = 0; gi < r.groups.length; gi++) {
+                var group = r.groups[gi];
+                lines.push('### ' + group.domain + ' (' + group.tierLabel.toLowerCase() + ') - ' + group.categoryLabel);
+                for (var ui = 0; ui < group.urls.length; ui++) {
+                    var row = group.urls[ui];
+                    var suffix = row.count > 1 ? ' x' + row.count : '';
+                    lines.push('- ' + row.kind + ': ' + row.href + suffix);
                 }
                 lines.push('');
             }
